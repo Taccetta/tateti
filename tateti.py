@@ -41,7 +41,7 @@ class Tateti():
         else:
             print ("\nPlayer 2 begins.")
         return turn
-    
+
     def playermove(self):
         self.printtable()
 
