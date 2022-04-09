@@ -76,7 +76,6 @@ class Tateti():
     def machinemove(self):
         self.printtable()
 
-
         try:
             position = randint(1, 9)
             if position <= 0 or position >= 10:
