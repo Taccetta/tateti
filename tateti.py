@@ -6,6 +6,8 @@ class Tateti():
 
     def __init__(self, player):
         self.__player = player
+        if player == "":
+            self.__player = "The Unknown"
         self.table = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
         self.turn = 0
         self.gaming = True
@@ -183,17 +185,17 @@ class Tateti():
             self.playerwin = 2
         
         if self.playerwin == 1:
+            self.printtable()
             print("%s WINS!" % self.__player)
             self.gaming = False
-            self.printtable()
         if self.playerwin == 2:
+            self.printtable()
             print("RandintBot WINS!")
             self.gaming = False
-            self.printtable()
         if self.maxmoves == 9:
+            self.printtable()
             print ("Tie!")
             self.gaming = False
-            self.printtable()
 
 
 
