@@ -57,8 +57,6 @@ class Tateti():
         print ("\n{}".format(self.__player), " turn.")
         self.printtable()
 
-
-
         try:
             position = int(input("\n Select a number between 1 and 9 to place your mark: "))
             if position <= 0 or position >= 10:
