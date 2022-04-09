@@ -20,7 +20,7 @@ class Tateti():
         return self.__player
 
     @player.setter
-    def regex(self, player):
+    def naming(self, player):
         self.__player = player
 
     def __str__(self):
@@ -31,19 +31,32 @@ class Tateti():
     def game(self):
         print ("\nWelcome to Tic-Tac-Toe!")
         print ("\nPlayer 1 is {}".format(self.__player), "and Player 2 is RandintBot")
-        print ("\nThe game will start in 3 seconds...")
-        time.sleep(3)
+        print ("\nStarting...")
+
+        time.sleep(0.5)
         
         self.clearscreen()
-        
+
         self.turn = self.roll()
-        
+        self.printtable()
         self.gaming = True
         while self.gaming == True:
+            position = -1
             if self.turn == 1:
-                self.playermove()
+                while position < 0 or position >= 10:
+                    position = self.playermove()
+                    position = self.invertkeys(position)
+                    position = self.setmove(position)
+                self.clearscreen()
+                position = self.wincondition()
+                self.printtable()
+
             else:
-                self.machinemove()
+                position = self.machinemove()
+                self.clearscreen()
+                position = self.wincondition()
+                self.printtable()
+
 
 
 
@@ -56,70 +69,84 @@ class Tateti():
             time.sleep(1)
         return turn
 
+
+
+    def invertkeys(self, posix):
+        if posix == 1:
+            posix = 7
+        elif posix == 2:
+            posix = 8
+        elif posix == 3:
+            posix = 9
+        elif posix == 7:
+            posix = 1
+        elif posix == 8:
+            posix = 2
+        elif posix == 9:
+            posix = 3
+        return posix
+
+
+
     def playermove(self):
 
-        self.printtable()
         print ("\n{}".format(self.__player), " turn.")
 
         try:
             position = int(input("\nSelect a number between 1 and 9 to place your mark: "))
-
             if position <= 0 or position >= 10:
-                self.maxmoves += 1
-                raise ValueError ("\nInvalid move, please try again")
+                raise ValueError
+
             self.turn = 2
-            self.maxmoves += 1
+            
+            return position
 
-            if position == 1:
-                position = 7
-            elif position == 2:
-                position = 8
-            elif position == 3:
-                position = 9
-            elif position == 7:
-                position = 1
-            elif position == 8:
-                position = 2
-            elif position == 9:
-                position = 3
+        except ValueError:
+            self.turn = 1
+            position = -1
+            print ("\nInvalid move, please try again.")
+            return position
 
-            position -= 1
-            mark = 0
-            break_out_flag = False
+
+
+    def setmove(self, position):
+
+        position -= 1
+        mark = 0
+        break_out_flag = False
+
+        try:
             for i in range(3):
                 for j in range(3):
                     if position == mark and self.table[i][j] != " ":
-                        raise ValueError ("\nInvalid move, please try again")
+                        raise ValueError
                     
                     if position == mark:
                         self.table[i][j] = "X"
+                        self.maxmoves += 1
                         break_out_flag = True
                         break
                     mark += 1
                 if break_out_flag:
                     break
+            return position
 
-        except ValueError as er:
-            self.maxmoves -= 1
-            self.turn = 1
-            print(er)
-
-        self.clearscreen()
-        self.wincondition()
+        except ValueError:
+            print ("\nInvalid move, please try again.")
+            position = -1
+            return position
 
 
 
     def machinemove(self):
 
         print ("\nRandintBot turn.")
-        self.printtable()
 
         try:
             position = randint(1, 9)
             if position <= 0 or position >= 10:
                 raise ValueError 
             self.turn = 1
-            self.maxmoves += 1
 
             position -= 1
             mark = 0
@@ -131,19 +158,18 @@ class Tateti():
                     
                     if position == mark:
                         self.table[i][j] = "O"
+                        self.maxmoves += 1
                         break_out_flag = True
                         break
                     mark += 1
                 if break_out_flag:
                     break
+        
 
         except ValueError as er:
-            self.maxmoves -= 1
             self.turn = 2
             print(er)
 
-        self.clearscreen()
-        self.wincondition()
 
 
 
@@ -195,16 +221,13 @@ class Tateti():
 
         if self.playerwin == 1:
             self.maxmoves = 0
-            self.printtable()
             print("%s WINS!" % self.__player)
             self.gaming = False
         if self.playerwin == 2:
             self.maxmoves = 0
-            self.printtable()
             print("RandintBot WINS!")
             self.gaming = False
         if self.maxmoves == 9:
-            self.printtable()
             print ("Tie!")
             self.gaming = False
 
@@ -220,3 +243,5 @@ class Tateti():
 
     def __del__(self):
         print('...')
+
+
