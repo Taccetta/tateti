@@ -53,18 +53,23 @@ class Tateti():
             print ("\nPlayer 1 begins.")
         else:
             print ("\nPlayer 2 begins.")
+            time.sleep(1)
         return turn
 
     def playermove(self):
-        print ("\n{}".format(self.__player), " turn.")
+
         self.printtable()
+        print ("\n{}".format(self.__player), " turn.")
 
         try:
-            position = int(input("\n Select a number between 1 and 9 to place your mark: "))
+            position = int(input("\nSelect a number between 1 and 9 to place your mark: "))
+
             if position <= 0 or position >= 10:
+                self.maxmoves += 1
                 raise ValueError ("\nInvalid move, please try again")
             self.turn = 2
-            
+            self.maxmoves += 1
+
             if position == 1:
                 position = 7
             elif position == 2:
@@ -77,7 +82,7 @@ class Tateti():
                 position = 2
             elif position == 9:
                 position = 3
-            
+
             position -= 1
             mark = 0
             break_out_flag = False
@@ -95,6 +100,7 @@ class Tateti():
                     break
 
         except ValueError as er:
+            self.maxmoves -= 1
             self.turn = 1
             print(er)
 
@@ -104,6 +110,7 @@ class Tateti():
 
 
     def machinemove(self):
+
         print ("\nRandintBot turn.")
         self.printtable()
 
@@ -112,7 +119,8 @@ class Tateti():
             if position <= 0 or position >= 10:
                 raise ValueError 
             self.turn = 1
-        
+            self.maxmoves += 1
+
             position -= 1
             mark = 0
             break_out_flag = False
@@ -130,6 +138,7 @@ class Tateti():
                     break
 
         except ValueError as er:
+            self.maxmoves -= 1
             self.turn = 2
             print(er)
 
@@ -166,7 +175,7 @@ class Tateti():
             self.playerwin = 1
         if self.table[2][0] == "X" and self.table[1][1] == "X" and self.table[0][2] == "X":
             self.playerwin = 1
-        
+
         if self.table[0][0] == "O" and self.table[0][1] == "O" and self.table[0][2] == "O":
             self.playerwin = 2
         if self.table[0][0] == "O" and self.table[1][1] == "O" and self.table[2][2] == "O":
@@ -183,12 +192,14 @@ class Tateti():
             self.playerwin = 2
         if self.table[2][0] == "O" and self.table[1][1] == "O" and self.table[0][2] == "O":
             self.playerwin = 2
-        
+
         if self.playerwin == 1:
+            self.maxmoves = 0
             self.printtable()
             print("%s WINS!" % self.__player)
             self.gaming = False
         if self.playerwin == 2:
+            self.maxmoves = 0
             self.printtable()
             print("RandintBot WINS!")
             self.gaming = False
@@ -204,3 +215,8 @@ class Tateti():
             os.system ("clear")
         elif os.name == "ce" or os.name == "nt" or os.name == "dos":
             os.system ("cls")
+
+
+
+    def __del__(self):
+        print('...')
