@@ -24,6 +24,8 @@ class Tateti():
     def __str__(self):
         return '{}'.format(self.__player)
 
+
+
     def game(self):
         print ("\nWelcome to Tic-Tac-Toe!")
         print ("\nPlayer 1 is {}".format(self.__player), "and Player 2 is RandintBot")
@@ -41,6 +43,8 @@ class Tateti():
             else:
                 self.machinemove()
 
+
+
     def roll(self):
         turn = randint(1, 2)
         if turn == 1:
@@ -52,6 +56,8 @@ class Tateti():
     def playermove(self):
         print ("\n{}".format(self.__player), " turn.")
         self.printtable()
+
+
 
         try:
             position = int(input("\n Select a number between 1 and 9 to place your mark: "))
@@ -95,6 +101,8 @@ class Tateti():
         self.clearscreen()
         self.wincondition()
 
+
+
     def machinemove(self):
         print ("\nRandintBot turn.")
         self.printtable()
@@ -128,6 +136,8 @@ class Tateti():
         self.clearscreen()
         self.wincondition()
 
+
+
     def printtable(self):
         j = 0
         print("\n")
@@ -136,7 +146,9 @@ class Tateti():
             if i < 2:
                 print ("\t\t\t-----------")
         print("\n")
-        
+
+
+
     def wincondition(self):
         if self.table[0][0] == "X" and self.table[0][1] == "X" and self.table[0][2] == "X":
             self.playerwin = 1
@@ -184,6 +196,8 @@ class Tateti():
             print ("Tie!")
             self.gaming = False
             self.printtable()
+
+
 
     def clearscreen(self):
         if os.name == "posix":
