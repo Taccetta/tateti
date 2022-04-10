@@ -15,6 +15,7 @@ class Tateti():
         self.playerwin = 0
         self.maxmoves = 0
 
+
     @property
     def player(self):
         return self.__player
@@ -142,34 +143,30 @@ class Tateti():
 
         print ("\nRandintBot turn.")
 
-        try:
-            position = randint(1, 9)
-            if position <= 0 or position >= 10:
-                raise ValueError 
-            self.turn = 1
+        while self.turn == 2:
+            try:
+                position = randint(0, 8)
+                self.turn = 1
 
-            position -= 1
-            mark = 0
-            break_out_flag = False
-            for i in range(3):
-                for j in range(3):
-                    if position == mark and self.table[i][j] != " ":
-                        raise ValueError ("")
-                    
-                    if position == mark:
-                        self.table[i][j] = "O"
-                        self.maxmoves += 1
-                        break_out_flag = True
+                mark = 0
+                break_out_flag = False
+                for i in range(3):
+                    for j in range(3):
+                        if position == mark and self.table[i][j] != " ":
+                            raise ValueError ("")
+                        
+                        if position == mark:
+                            self.table[i][j] = "O"
+                            self.maxmoves += 1
+                            break_out_flag = True
+                            break
+                        mark += 1
+                    if break_out_flag:
                         break
-                    mark += 1
-                if break_out_flag:
-                    break
-        
+            
 
-        except ValueError as er:
-            self.turn = 2
-            print(er)
-
+            except ValueError as er:
+                self.turn = 2
 
 
 

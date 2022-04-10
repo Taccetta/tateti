@@ -16,6 +16,8 @@ class TatetiTest(unittest.TestCase):
 
         del tatetest
 
+
+
     @unittest.mock.patch("builtins.input", return_value='a')
     def test_playermovewrong(self, mock):
 
@@ -23,9 +25,40 @@ class TatetiTest(unittest.TestCase):
 
         position = tatetest.playermove()
         
-        self.assertEqual(position, 0)
+        self.assertEqual(position, -1)
 
-        del tatetest
+
+
+    def test_table(self):
+
+        iniciate = Tateti("name")
+
+        iniciate.table = [["X", "O", "X"], ["X", "X", "O"], ["O", "O", "X"]]
+
+        iniciate.wincondition()
+
+        self.assertEqual(iniciate.playerwin, 1)
+
+
+    def testinvertkeys(self):
+        iniciate = Tateti("name")
+
+        posix = 3
+
+        posix = iniciate.invertkeys(posix)
+
+        self.assertEqual(posix, 9)
+
+    
+    def testmachine(self):
+        iniciate = Tateti("name")
+
+        iniciate.table = [["X", "O", " "], ["X", "x", "O"], ["O", "O", "X"]]
+
+        iniciate.machinemove()
+
+        self.assertEqual(iniciate.table[0][2], "O")
+
 
 
 if __name__ == '__main__':
